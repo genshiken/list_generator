@@ -1,10 +1,12 @@
 #!/bin/sh
 export PATH=/bin:/usr/bin:/usr/local/bin
+export http_proxy=http://127.0.0.1:8081
+
 _log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
 target="${HOME}/hg/biggest_list"
-cd /anime
+cd /srv/ftp/biggest
 for i in "!new" "[aether]" "[anime-rg]" complete extras incomplete movie music; do
   _log "Generating list for ${i}..."
   find "$i" -type f | sort > "${target}/list.${i}.txt"
