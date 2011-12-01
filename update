@@ -6,7 +6,7 @@ _log() {
 }
 target="${HOME}/hg/biggest_list"
 cd /anime
-for i in "!new" "[aether]" "[anime-rg]" complete extras incomplete movie music; do
+for i in *; do
   _log "Generating list for ${i}..."
   find "$i" -type f | sort > "${target}/list.${i}.txt"
 done
