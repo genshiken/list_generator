@@ -1,4 +1,8 @@
 #!/bin/sh
+
+set -u
+set -e
+
 export PATH=/bin:/usr/bin:/usr/local/bin
 
 _log() {
@@ -10,15 +14,15 @@ cd "${anime}"
 for i in *; do
   [ "${i}" = "all" ] && continue
   _log "Generating list for ${i}..."
-  find "$i" -type f | sort > "${target}/list.${i}.txt"
+  find "$i" -type f | LC_ALL=C sort > "${target}/list.${i}.txt"
 done
 _log "Done. Sleeping for 5 seconds before continuing..."
 sleep 5
 _log "Updating repository..."
 if cd "${target}"; then
-  hg addremove
-  hg ci -m "Auto-updater."
-  hg push
+  hg -q addremove || true
+  hg -q ci -m "Auto-updater." || true
+  hg -q push || true
   _log "Done"
 else
   _log "Failed"
