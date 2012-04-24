@@ -5,7 +5,8 @@ _log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
 target="${HOME}/hg/biggest_list"
-cd /anime
+anime="/anime/all"
+cd "${anime}"
 for i in *; do
   [ "${i}" = "all" ] && continue
   _log "Generating list for ${i}..."
