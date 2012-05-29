@@ -8,7 +8,8 @@ export PATH=/bin:/usr/bin:/usr/local/bin
 _log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
-target="${HOME}/hg/biggest_list"
+target="${HOME}/git/biggest_list"
+rm "${target}/list."*".txt"
 anime="/anime/all"
 cd "${anime}"
 for i in *; do
@@ -19,11 +20,13 @@ done
 _log "Done. Sleeping for 5 seconds before continuing..."
 sleep 5
 _log "Updating repository..."
+_log "Start git output"
 if cd "${target}"; then
-  hg -q addremove || true
-  hg -q ci -m "Auto-updater." || true
-  hg -q push || true
+  git add -A
+  git commit -m "Auto-updater." || true
+  git push
   _log "Done"
 else
   _log "Failed"
 fi
+_log "End git output"
