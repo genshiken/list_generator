@@ -3,7 +3,7 @@
 set -u
 set -e
 
-export PATH=/bin:/usr/bin:/usr/local/bin
+export PATH=/bin:/usr/bin:/usr/local/bin:/usr/pkg/bin
 
 _log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
