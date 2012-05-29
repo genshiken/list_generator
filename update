@@ -24,7 +24,7 @@ _log "Start git output"
 if cd "${target}"; then
   git add -A
   git commit -m "Auto-updater." || true
-  git push
+  git push -q
   _log "Done"
 else
   _log "Failed"
