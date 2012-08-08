@@ -3,19 +3,31 @@
 set -u
 set -e
 
+target="${HOME}/git/biggest_list"
+anime=/anime
+categories="${anime}/.categories"
+
 export PATH="${PATH}:/bin:/usr/bin:/usr/local/bin:/usr/pkg/bin"
 
 _log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
-target="${HOME}/git/biggest_list"
-rm "${target}/list."*".txt"
-anime="/anime/all"
-cd "${anime}"
+
+_err() {
+  _log "$*" >&2
+}
+
+rm -f "${target}/list."*".txt"
+cd "${categories}"
 for i in *; do
-  [ "${i}" = "all" ] && continue
   _log "Generating list for ${i}..."
-  find "$i" -type f | LC_ALL=C sort > "${target}/list.${i}.txt"
+  for d in "${anime}"/?; do
+  (
+    cd "${d}" && [ -d "${i}" ] && find "$i" -type f
+    # Dummy printf since without it the piping didn't work.
+    printf ''
+  )
+  done | LC_ALL=C sort > "${target}/list.${i}.txt"
 done
 _log "Done. Sleeping for 5 seconds before continuing..."
 sleep 5
