@@ -5,7 +5,6 @@ set -e
 
 target="${HOME}/git/biggest_list"
 anime=/anime
-categories="${anime}/.categories"
 
 export PATH="${PATH}:/bin:/usr/bin:/usr/local/bin:/usr/pkg/bin"
 
@@ -18,16 +17,10 @@ _err() {
 }
 
 rm -f "${target}/list."*".txt"
-cd "${categories}"
+cd "${anime}"
 for i in *; do
   _log "Generating list for ${i}..."
-  for d in "${anime}"/?; do
-  (
-    cd "${d}" && [ -d "${i}" ] && find "$i" -type f
-    # Dummy printf since without it the piping didn't work.
-    printf ''
-  )
-  done | LC_ALL=C sort > "${target}/list.${i}.txt"
+  find "$i" -type f | LC_ALL=C sort > "${target}/list.${i}.txt"
 done
 _log "Done. Sleeping for 5 seconds before continuing..."
 sleep 5
